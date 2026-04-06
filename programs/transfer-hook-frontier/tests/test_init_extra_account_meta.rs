@@ -29,7 +29,7 @@ fn test_initialize_extra_account_meta_list() {
 
     let init_extra_ix = Instruction::new_with_bytes(
         program_id,
-        &transfer_hook_frontier::instruction::InitializeExtraAccountMetaList {}.data(),
+        &transfer_hook_frontier::instruction::InitializeExtraAccountMetaListIx {}.data(),
         transfer_hook_frontier::accounts::InitializeExtraAccountMetaList {
             payer: payer.pubkey(),
             mint: mint.pubkey(),

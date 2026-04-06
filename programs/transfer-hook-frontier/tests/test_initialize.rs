@@ -30,9 +30,9 @@ fn test_initialize() {
 
     let instruction = Instruction::new_with_bytes(
         program_id,
-        &transfer_hook_frontier::instruction::Initialize {}.data(),
+        &transfer_hook_frontier::instruction::InitializeRateLimitIx {}.data(),
         transfer_hook_frontier::accounts::Initialize {
-            payer: payer.pubkey(),
+            user: payer.pubkey(),
             mint: mint.pubkey(),
             rate_limit,
             system_program: SYSTEM_PROGRAM_ID,

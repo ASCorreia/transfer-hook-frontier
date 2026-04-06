@@ -33,8 +33,8 @@ pub struct TransferHook<'info> {
     pub rate_limit: Account<'info, RateLimit>,
 }
 
-/// This function is called when the transfer hook is executed.
-pub fn handler(ctx: Context<TransferHook>, amount: u64) -> Result<()> {
+// This function is called when the transfer hook is executed.
+pub fn transfer_hook(ctx: Context<TransferHook>, amount: u64) -> Result<()> {
     // Fail this instruction if it is not called from within a transfer hook
     check_is_transferring(&ctx)?;
 
@@ -62,7 +62,7 @@ pub fn handler(ctx: Context<TransferHook>, amount: u64) -> Result<()> {
     Ok(())
 }
 
-/// Checks if the transfer hook is being executed during a transfer operation.
+// Checks if the transfer hook is being executed during a transfer operation.
 fn check_is_transferring(ctx: &Context<TransferHook>) -> Result<()> {
     let source_token_info = ctx.accounts.source_token.to_account_info();
     let account_data_ref: Ref<&mut [u8]> = source_token_info.try_borrow_data()?;

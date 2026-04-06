@@ -4,14 +4,13 @@ use anchor_spl::token_interface::{Mint, TokenInterface};
 #[derive(Accounts)]
 pub struct InitializeMint<'info> {
     #[account(mut)]
-    pub payer: Signer<'info>,
+    pub admin: Signer<'info>,
     #[account(
         init,
-        payer = payer,
+        payer = admin,
         mint::decimals = 9,
-        mint::authority = payer,
-        extensions::permanent_delegate::delegate = payer,
-        extensions::transfer_hook::authority = payer,
+        mint::authority = admin,
+        extensions::transfer_hook::authority = admin,
         extensions::transfer_hook::program_id = crate::ID,
     )]
     pub mint: InterfaceAccount<'info, Mint>,
@@ -19,6 +18,6 @@ pub struct InitializeMint<'info> {
     pub token_program: Interface<'info, TokenInterface>,
 }
 
-pub fn handler(_ctx: Context<InitializeMint>) -> Result<()> {
+pub fn initialize_mint(_ctx: Context<InitializeMint>) -> Result<()> {
     Ok(())
 }

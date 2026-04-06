@@ -1,3 +1,7 @@
+/**
+ * Helper functions for transfer-hook-frontier tests.
+ */
+
 use {
     anchor_lang::{
         Id, InstructionData, ToAccountMetas,
@@ -19,6 +23,7 @@ use {
     solana_transaction::versioned::VersionedTransaction,
 };
 
+// Set up the LiteSVM environment, deploy the program, and airdrop some SOL to the payer.
 pub fn setup() -> (LiteSVM, Keypair, Address) {
     let program_id = transfer_hook_frontier::id();
     let mut svm = LiteSVM::new();
@@ -31,6 +36,7 @@ pub fn setup() -> (LiteSVM, Keypair, Address) {
     (svm, payer, program_id)
 }
 
+// Helper function to send a transaction with a single instruction, signed by the specified signers.
 pub fn send_ix(svm: &mut LiteSVM, ix: Instruction, payer: &Keypair, signers: &[&Keypair]) {
     let blockhash = svm.latest_blockhash();
     let msg = Message::new_with_blockhash(&[ix], Some(&payer.pubkey()), &blockhash);
@@ -38,18 +44,19 @@ pub fn send_ix(svm: &mut LiteSVM, ix: Instruction, payer: &Keypair, signers: &[&
     svm.send_transaction(tx).unwrap();
 }
 
-pub fn initialize_mint(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair, program_id: &Address) {
+// Helper functions to initialize the mint, rate limit account, and extra account meta list for testing.
+pub fn initialize_mint(svm: &mut LiteSVM, admin: &Keypair, mint: &Keypair, program_id: &Address) {
     let ix = Instruction::new_with_bytes(
         *program_id,
-        &transfer_hook_frontier::instruction::InitializeMint {}.data(),
+        &transfer_hook_frontier::instruction::InitializeMintIx {}.data(),
         transfer_hook_frontier::accounts::InitializeMint {
-            payer: payer.pubkey(),
+            admin: admin.pubkey(),
             mint: mint.pubkey(),
             system_program: SYSTEM_PROGRAM_ID,
             token_program: Token2022::id(),
         }.to_account_metas(None),
     );
-    send_ix(svm, ix, payer, &[payer, mint]);
+    send_ix(svm, ix, admin, &[admin, mint]);
 }
 
 pub fn initialize_rate_limit(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair, program_id: &Address) {
@@ -60,9 +67,9 @@ pub fn initialize_rate_limit(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair,
 
     let ix = Instruction::new_with_bytes(
         *program_id,
-        &transfer_hook_frontier::instruction::Initialize {}.data(),
+        &transfer_hook_frontier::instruction::InitializeRateLimitIx {}.data(),
         transfer_hook_frontier::accounts::Initialize {
-            payer: payer.pubkey(),
+            user: payer.pubkey(),
             mint: mint.pubkey(),
             rate_limit,
             system_program: SYSTEM_PROGRAM_ID,
@@ -79,7 +86,7 @@ pub fn initialize_extra_account_metas(svm: &mut LiteSVM, payer: &Keypair, mint: 
 
     let ix = Instruction::new_with_bytes(
         *program_id,
-        &transfer_hook_frontier::instruction::InitializeExtraAccountMetaList {}.data(),
+        &transfer_hook_frontier::instruction::InitializeExtraAccountMetaListIx {}.data(),
         transfer_hook_frontier::accounts::InitializeExtraAccountMetaList {
             payer: payer.pubkey(),
             mint: mint.pubkey(),

@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 #[account]
 #[derive(InitSpace)]
 pub struct RateLimit {
-    pub authority: Pubkey,          // The account that can update the rate limit
+    pub user: Pubkey,               // The user associated with this rate limit
     pub mint: Pubkey,               // The mint associated with this rate limit
     pub max_amount: u64,            // The maximum amount that can be transferred within the rate limit period
     pub last_updated: i64,          // The timestamp of the last update to the rate limit
