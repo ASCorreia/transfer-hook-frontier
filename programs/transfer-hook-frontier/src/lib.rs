@@ -11,7 +11,7 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("BFD3zCe35aSdWeHHfpeVtMCUmbX584w8dJZAvcLR4WDp");
+declare_id!("CMkFe7d5cwEHX9uuwjNhKYbT3kDN2dezHtfgmgHZFdVi");
 
 #[program]
 pub mod transfer_hook_frontier {
