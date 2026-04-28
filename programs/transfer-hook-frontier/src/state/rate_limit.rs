@@ -16,10 +16,9 @@ impl RateLimit {
         self.amount_transferred + amount > self.max_amount
     }
 
-    // Update the rate limit account with the new amount transferred and the current timestamp
+    // Update the rate limit account with the new amount transferred
     pub fn update(&mut self, amount: u64) {
         self.amount_transferred += amount;
-        self.last_updated = Clock::get().unwrap().unix_timestamp;
     }
 
     // Reset the rate limit account by setting the amount transferred to 0 and updating the last updated timestamp
@@ -34,5 +33,5 @@ impl RateLimit {
         current_time - self.last_updated > expiration_time
     }
 
-    pub const MAX_AMOUNT: u64 = 1_000_000; // Example max amount
+    pub const MAX_AMOUNT: u64 = 1_000_000; // Example max amount (0.001 because our token has 9 decimals)
 }

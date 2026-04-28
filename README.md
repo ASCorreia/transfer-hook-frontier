@@ -123,7 +123,7 @@ pub fn handler(ctx: Context<Initialize>) -> Result<()> {
 }
 ```
 
-In here, we first ensure the mint is owned by the Token-2022 program. Then we set the initial data of our RateLimit account with the authority, mint, a maximum transfer amount of 1,000,000, the current timestamp, and zero amount transferred.
+Here, we first ensure the mint is owned by the Token-2022 program. Then we set the initial data of our RateLimit account with the authority, mint, a maximum transfer amount of 1,000,000, the current timestamp, and zero amount transferred.
 
 ---
 
@@ -176,7 +176,7 @@ pub fn extra_account_metas() -> Result<Vec<ExtraAccountMeta>> {
 }
 ```
 
-In here, we define the extra accounts that will be required during transfer hook execution. Unlike the whitelist example which used a hardcoded PDA via `new_with_pubkey`, we use `new_with_seeds` to let the runtime derive the rate_limit PDA dynamically at transfer time. The seeds reference the mint (account index 1) and the owner/authority (account index 3) from the standard transfer hook execute instruction accounts. This ensures each user gets their own rate limit account per mint.
+Here, we define the extra accounts that will be required during transfer hook execution. Unlike the whitelist example which used a hardcoded PDA via `new_with_pubkey`, we use `new_with_seeds` to let the runtime derive the rate_limit PDA dynamically at transfer time. The seeds reference the mint (account index 1) and the owner/authority (account index 3) from the standard transfer hook execute instruction accounts. This ensures each user gets their own rate limit account per mint.
 
 ---
 

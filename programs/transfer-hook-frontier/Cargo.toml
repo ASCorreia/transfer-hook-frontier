@@ -23,11 +23,9 @@ custom-panic = []
 [dependencies]
 anchor-lang = "1.0.0"
 anchor-spl = "1.0.0"
-# Library defining a generic state interface to encode additional required accounts for an instruction, using Type-Length-Value structures
-spl-tlv-account-resolution = "0.11.1"
-# Library with helper to resolve additional accounts
-spl-discriminator = "0.5.2"
-spl-transfer-hook-interface = "2.1.0"
+spl-tlv-account-resolution = "0.11.1"   # Library defining a generic state interface to encode additional required accounts for an instruction, using Type-Length-Value structures
+spl-discriminator = "0.5.2"             # Library for easy management of 8-byte discriminators
+spl-transfer-hook-interface = "2.1.0"   # Library with helper to resolve additional accounts
 
 [dev-dependencies]
 litesvm = "0.10.0"
@@ -35,7 +33,7 @@ solana-message = "3.0.1"
 solana-transaction = "3.0.2"
 solana-signer = "3.0.0"
 solana-keypair = "3.0.1"
-solana-pubkey = "4.1.0"
+solana-pubkey = "4.1.0"                 # Library for public key management, used in tests for PDA generation
 
 
 [lints.rust]

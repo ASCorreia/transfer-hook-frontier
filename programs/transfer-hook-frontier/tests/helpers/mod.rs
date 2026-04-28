@@ -44,7 +44,7 @@ pub fn send_ix(svm: &mut LiteSVM, ix: Instruction, payer: &Keypair, signers: &[&
     svm.send_transaction(tx).unwrap();
 }
 
-// Helper functions to initialize the mint, rate limit account, and extra account meta list for testing.
+// Helper functions to initialize the mint, rate limit account, and extra account meta list.
 pub fn initialize_mint(svm: &mut LiteSVM, admin: &Keypair, mint: &Keypair, program_id: &Address) {
     let ix = Instruction::new_with_bytes(
         *program_id,
@@ -59,6 +59,7 @@ pub fn initialize_mint(svm: &mut LiteSVM, admin: &Keypair, mint: &Keypair, progr
     send_ix(svm, ix, admin, &[admin, mint]);
 }
 
+// Helper function to initialize the rate limit account.
 pub fn initialize_rate_limit(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair, program_id: &Address) {
     let rate_limit = Pubkey::find_program_address(
         &[b"rate_limit", mint.pubkey().as_ref(), payer.pubkey().as_ref()],
@@ -78,6 +79,7 @@ pub fn initialize_rate_limit(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair,
     send_ix(svm, ix, payer, &[payer]);
 }
 
+// Helper function to initialize the extra account meta list.
 pub fn initialize_extra_account_metas(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair, program_id: &Address) {
     let extra_account_meta_list = Pubkey::find_program_address(
         &[b"extra-account-metas", mint.pubkey().as_ref()],
@@ -97,6 +99,7 @@ pub fn initialize_extra_account_metas(svm: &mut LiteSVM, payer: &Keypair, mint: 
     send_ix(svm, ix, payer, &[payer]);
 }
 
+// Helper function to setup the mint, rate limit account, and extra account meta list.
 pub fn setup_mint_and_extra_metas(svm: &mut LiteSVM, payer: &Keypair, mint: &Keypair, program_id: &Address) {
     initialize_mint(svm, payer, mint, program_id);
     initialize_rate_limit(svm, payer, mint, program_id);
@@ -115,6 +118,7 @@ pub fn create_ata(svm: &mut LiteSVM, payer: &Keypair, wallet: &Pubkey, mint: &Pu
     ata
 }
 
+// Helper function to mint tokens.
 pub fn mint_tokens(svm: &mut LiteSVM, payer: &Keypair, mint: &Pubkey, dest: &Pubkey, amount: u64) {
     let ix = spl_token_2022::instruction::mint_to(
         &Token2022::id(),
@@ -127,6 +131,7 @@ pub fn mint_tokens(svm: &mut LiteSVM, payer: &Keypair, mint: &Pubkey, dest: &Pub
     send_ix(svm, ix, payer, &[payer]);
 }
 
+// Helper function to build the transfer with hook instruction.
 pub fn build_transfer_with_hook_ix(
     source_ata: &Pubkey,
     dest_ata: &Pubkey,
