@@ -42,7 +42,7 @@ pub fn init_extra_account_meta(ctx: Context<InitializeExtraAccountMetaList>) -> 
     // Get the extra account metas for the transfer hook
     let extra_account_metas = extra_account_metas()?;
 
-    // initialize ExtraAccountMetaList account with extra accounts
+    // Initialize ExtraAccountMetaList account with extra accounts
     ExtraAccountMetaList::init::<ExecuteInstruction>(
         &mut ctx.accounts.extra_account_meta_list.try_borrow_mut_data()?,
         &extra_account_metas

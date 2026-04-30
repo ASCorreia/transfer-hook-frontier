@@ -10,8 +10,8 @@ pub struct InitializeMint<'info> {
         payer = admin,
         mint::decimals = 9,
         mint::authority = admin,
-        extensions::transfer_hook::authority = admin,
-        extensions::transfer_hook::program_id = crate::ID,
+        extensions::transfer_hook::authority = admin, // Who can update the transfer hook program id 
+        extensions::transfer_hook::program_id = crate::ID, // The transfer hook program id
     )]
     pub mint: InterfaceAccount<'info, Mint>,
     pub system_program: Program<'info, System>,
